@@ -1,0 +1,41 @@
+body {
+    padding-top: 50px;
+}
+.starter-template {
+    padding: 40px 15px;
+    text-align: left;
+}
+
+.default {
+    display: none;
+}
+
+.moving{
+    display: block;
+    /* Animation to move the div */
+    -webkit-animation:  moveToright 1s ease ;
+    -moz-animation:  moveToright 1s ease ;
+    -ms-animation:  moveToright 1s ease ;
+    animation:  moveToright 1s ease ;
+
+    position: relative;
+    right: 0;
+}
+
+/* Move div from right to left */
+@-moz-keyframes moveToright {
+    0%   { right: 100%; }
+    100% { right: 0; }
+}
+@-ms-keyframes moveToright {
+    0%   { right: 100%; }
+    100% { right: 0; }
+}
+@keyframes moveToright {
+    0%   { right: 100%; }
+    100% { right: 0; }
+}
+@-webkit-keyframes moveToright {
+    0%   { right: 100%; }
+    100% { right: 0; }
+}
