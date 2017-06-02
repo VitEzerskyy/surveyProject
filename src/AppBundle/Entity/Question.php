@@ -31,6 +31,13 @@ class Question
     private $question;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="published", type="boolean", nullable=true)
@@ -50,7 +57,7 @@ class Question
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Answer", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Answer", mappedBy="question", cascade={"persist", "remove"})
      */
     private $answers;
 

@@ -46,7 +46,7 @@ class Survey
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="survey")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="survey", cascade={"persist", "remove"})
      */
     private $questions;
 
