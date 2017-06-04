@@ -1,0 +1,36 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+<h1>{{ survey.title }}</h1>
+
+    <button class="btn btn-success" data-toggle="collapse" data-target="#survey">Start</button>
+
+<div id="survey" class="collapse" style="margin:20px;">
+    <ul>
+{% for question in survey.questions %}
+
+        <li>
+            <h4>{{ question.question }}</h4>
+            <form class="form-group">
+                {% for choice in question.choices %}
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                            {{ choice.name }}
+                        </label>
+                    </div>
+                {% endfor %}
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                        Other <input type="text" class="form-check-input">
+                    </label>
+                </div>
+            </form>
+        </li>
+
+{% endfor %}
+    </ul>
+</div>
+{% endblock %}
+

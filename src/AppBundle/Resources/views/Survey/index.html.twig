@@ -4,4 +4,10 @@
     <h1>Hi people</h1>
     <h3>Here are actual surveys:</h3>
 
+    <div class="list-group" style="width: 40%">
+        {% for survey in surveys %}
+        <a href="{{ path('client_survey_show', {id:survey.id}) }}" class="list-group-item list-group-item-action">{{ survey.title }} ({{ survey.created|date('Y-m-d') }})</a>
+        {% endfor %}
+    </div>
+
 {% endblock %}
