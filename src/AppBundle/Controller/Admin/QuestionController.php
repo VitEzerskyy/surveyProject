@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Route("/admin/question")
  */
@@ -28,25 +29,6 @@ class QuestionController extends Controller
             $this->addFlash('fail', 'Survey not found');
             return $this->redirectToRoute('survey_show');
         }
-//        for ($i = 0; $i < $request->get('number'); $i ++) {
-//            $question[] = new Question();
-//        }
-//
-//        $form = $this->createFormBuilder(array('questions' => $question));
-//
-//        $form->add('questions', CollectionType::class, array(
-//                'entry_type' => QuestionType::class,
-//                'label' => false,
-//                'required' => false
-//            )
-//        );
-//
-//        if ($question) {
-//            $form->add('submit', SubmitType::class, array(
-//                'attr' => array('class' => 'btn btn-primary')));
-//        }
-//
-//        $result = $form->getForm()->handleRequest($request);
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->add('submit', SubmitType::class, array(
@@ -55,12 +37,6 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $papa = $form->getData();
-//
-//            foreach($papa['questions'] as $value) {
-//               $value->setSurvey($survey);
-//               $doctrine->getManager()->persist($value);
-//            }
             $question->setSurvey($survey);
             $doctrine->getManager()->persist($question);
             $doctrine->getManager()->flush();
@@ -81,5 +57,71 @@ class QuestionController extends Controller
         findBy(array('survey' => $surveyId),array('published' => 'DESC'));
 
         return ['questions' => $questions, 'survey' => $surveyId];
+    }
+
+    /**
+     * @Template()
+     * @Route("/edit/{surveyId}/{questionId}", name="question_edit")
+     */
+    public function editAction(Request $request)
+    {
+        $doctrine = $this->get('doctrine');
+        $question = $doctrine->getRepository('AppBundle:Question')->find($request->get('questionId'));
+
+        if(!$question) {
+            $this->addFlash('fail','Item not found!');
+            return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
+        }
+
+        $originalChoices = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Choice objects in the database
+        foreach ($question->getChoices() as $choice) {
+            $originalChoices->add($choice);
+        }
+
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->add('submit', SubmitType::class, array(
+            'attr' => array('class' => 'btn btn-primary')));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($originalChoices as $choice) {
+                if (false === $question->getChoices()->contains($choice)) {
+
+                    $choice->setQuestion(null);
+
+                    $doctrine->getManager()->remove($choice);
+
+                }
+            }
+
+            $doctrine->getManager()->persist($question);
+            $doctrine->getManager()->flush();
+            $this->addFlash('success','Successfully edited!');
+            return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
+        }
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/delete/{surveyId}/{questionId}", name="question_delete")
+     */
+    public function deleteAction(Request $request)
+    {
+        $doctrine = $this->get('doctrine');
+        $question = $doctrine->getRepository('AppBundle:Question')->find($request->get('questionId'));
+
+        if(!$question) {
+            $this->addFlash('fail','Item not found!');
+            return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
+        }
+
+        $doctrine->getManager()->remove($question);
+        $doctrine->getManager()->flush();
+
+        $this->addFlash('success','The question was deleted!');
+        return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
     }
 }

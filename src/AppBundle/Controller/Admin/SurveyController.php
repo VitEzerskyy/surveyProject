@@ -55,8 +55,6 @@ class SurveyController extends Controller
 
     /**
      * @Route("/delete/{id}", name="survey_delete")
-     * @param Request $request
-     * @return Response
      */
     public function deleteAction(Request $request)
     {
@@ -78,8 +76,6 @@ class SurveyController extends Controller
     /**
      * @Template()
      * @Route("/edit/{id}", name="survey_edit")
-     * @param Request $request
-     * @return Response|array
      */
     public function editAction(Request $request)
     {
@@ -88,7 +84,7 @@ class SurveyController extends Controller
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
-            return $this->redirectToRoute('wishes_index');
+            return $this->redirectToRoute('survey_show');
         }
 
         $form = $this->createForm(SurveyType::class, $survey);

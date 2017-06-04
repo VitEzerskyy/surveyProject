@@ -26,7 +26,8 @@ class QuestionType extends AbstractType
         $builder->add('choices', CollectionType::class, array(
             'entry_type' => ChoiceType::class,
             'allow_add'    => true,
-            'label' => '_',
+            'allow_delete' => true,
+            'label' => false,
             'by_reference' => false
         ));
     }

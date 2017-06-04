@@ -1,0 +1,28 @@
+{% extends 'AppBundle::admin_base.html.twig' %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('bundles/app/js/question.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <h1>Edit question</h1>
+    <div style="width: 50%">
+        {{ form_start(form) }}
+        <h3>Question</h3>
+        <div>
+            {{ form_errors(form.question) }}
+            {{ form_widget(form.question) }}
+        </div>
+        {{ form_row(form.published) }}
+
+        <h3>Choices</h3>
+        <ul class="choices" data-prototype="{{ form_widget(form.choices.vars.prototype)|e('html_attr') }}">
+            {% for choice in form.choices %}
+                <li>{{ form_row(choice.name) }}</li>
+            {% endfor %}
+        </ul>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
