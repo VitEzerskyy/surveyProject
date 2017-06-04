@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Survey
  *
  * @ORM\Table(name="survey")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\SurveyRepository")
+ * @ORM\Entity()
  */
 class Survey
 {

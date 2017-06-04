@@ -2,14 +2,14 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Choice;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class SurveyType extends AbstractType
+class ChoiceType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,7 @@ class SurveyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->
-        add('title', null, array('label' => 'Survey Title'))->
-        add('published', null, array('label' => 'Publish'));
+        add('name');
     }
 
     /**
@@ -27,7 +26,7 @@ class SurveyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Survey'
+            'data_class' => 'AppBundle\Entity\Choice'
         ));
     }
 
@@ -36,7 +35,7 @@ class SurveyType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_survey';
+        return 'appbundle_choice';
     }
 
 }

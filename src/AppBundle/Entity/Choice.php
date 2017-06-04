@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Answer
  *
- * @ORM\Table(name="answer")
+ * @ORM\Table(name="choice")
  * @ORM\Entity()
  */
-class Answer
+class Choice
 {
     /**
      * @var int
@@ -25,9 +25,9 @@ class Answer
     /**
      * @var string
      *
-     * @ORM\Column(name="answer", type="text")
+     * @ORM\Column(name="name", type="string")
      */
-    private $answer;
+    private $name;
 
 
     /**
@@ -36,12 +36,10 @@ class Answer
      * @return int
      */
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="choices")
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $question;
-
-
 
     /**
      * Get id
@@ -54,15 +52,15 @@ class Answer
     }
 
     /**
-     * Set answer
+     * Set name
      *
-     * @param string $answer
+     * @param string $name
      *
-     * @return Answer
+     * @return Choice
      */
-    public function setAnswer($answer)
+    public function setName($name)
     {
-        $this->answer = $answer;
+        $this->name = $name;
 
         return $this;
     }
@@ -72,9 +70,9 @@ class Answer
      *
      * @return string
      */
-    public function getAnswer()
+    public function getName()
     {
-        return $this->answer;
+        return $this->name;
     }
 
     /**
@@ -82,7 +80,7 @@ class Answer
      *
      * @param \AppBundle\Entity\Question $question
      *
-     * @return Answer
+     * @return Choice
      */
     public function setQuestion(\AppBundle\Entity\Question $question = null)
     {
@@ -99,5 +97,10 @@ class Answer
     public function getQuestion()
     {
         return $this->question;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

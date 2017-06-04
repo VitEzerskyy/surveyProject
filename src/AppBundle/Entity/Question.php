@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Question
  *
  * @ORM\Table(name="question")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\QuestionRepository")
+ * @ORM\Entity()
  */
 class Question
 {
@@ -31,13 +31,6 @@ class Question
     private $question;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="published", type="boolean", nullable=true)
@@ -51,7 +44,7 @@ class Question
      */
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Survey", inversedBy="questions")
-     * @ORM\JoinColumn(name="survey_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="survey_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $survey;
 
@@ -61,10 +54,16 @@ class Question
      */
     private $answers;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Choice", mappedBy="question", cascade={"persist", "remove"})
+     */
+    private $choices;
 
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->choices = new ArrayCollection();
     }
 
 
@@ -182,5 +181,40 @@ class Question
     public function getAnswers()
     {
         return $this->answers;
+    }
+
+    /**
+     * Add choice
+     *
+     * @param \AppBundle\Entity\Choice $choice
+     *
+     * @return Question
+     */
+    public function addChoice(\AppBundle\Entity\Choice $choice)
+    {
+        $choice->setQuestion($this);
+        $this->choices[] = $choice;
+
+        return $this;
+    }
+
+    /**
+     * Remove choice
+     *
+     * @param \AppBundle\Entity\Choice $choice
+     */
+    public function removeChoice(\AppBundle\Entity\Choice $choice)
+    {
+        $this->choices->removeElement($choice);
+    }
+
+    /**
+     * Get choices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChoices()
+    {
+        return $this->choices;
     }
 }
