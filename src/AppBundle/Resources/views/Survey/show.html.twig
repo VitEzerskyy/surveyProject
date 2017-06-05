@@ -1,7 +1,14 @@
 {% extends 'AppBundle::base.html.twig' %}
 
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="{{ asset('bundles/app/js/client_survey.js') }}"></script>
+{% endblock %}
+
 {% block body %}
-<h1>{{ survey.title }}</h1>
+<h1 data-id="{{ survey.id }}">{{ survey.title }}</h1>
 
     <button class="btn btn-success" data-toggle="collapse" data-target="#survey">Start</button>
 
@@ -9,21 +16,21 @@
     <ul>
 {% for question in survey.questions %}
 
-        <li>
+        <li style="list-style-type: none">
             <h4>{{ question.question }}</h4>
             <form class="form-group">
                 {% for choice in question.choices %}
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+                            <input type="radio" class="form-check-input" name="{{ question.id }}" id="optionsRadios1" value="{{ choice.name }}">
                             {{ choice.name }}
                         </label>
                     </div>
                 {% endfor %}
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
-                        Other <input type="text" class="form-check-input">
+                        <input type="radio" class="form-check-input" name="{{ question.id }}" data-value="custom" checked>
+                        Other <input type="text" class="form-check-input" name="{{ question.id }}">
                     </label>
                 </div>
             </form>
@@ -31,6 +38,8 @@
 
 {% endfor %}
     </ul>
-</div>
-{% endblock %}
 
+    <button class="btn btn-primary" id="submit">Submit</button>
+</div>
+
+{% endblock %}

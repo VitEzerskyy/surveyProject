@@ -16,7 +16,8 @@ class SurveyController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $surveys = $this->get('doctrine')->getRepository('AppBundle:Survey')->findAll();
+
+        $surveys = $this->get('doctrine')->getRepository('AppBundle:Survey')->findBy(array(),array('created' => 'DESC'));
 
         return ['surveys' => $surveys];
     }
@@ -26,6 +27,7 @@ class SurveyController extends Controller
      * @Route("/show/{id}", name="client_survey_show")
      */
     public function showAction(Request $request) {
+
         $survey = $this->get('doctrine')->
         getRepository('AppBundle:Survey')->
         findOneBy(array('id' => $request->get('id')));

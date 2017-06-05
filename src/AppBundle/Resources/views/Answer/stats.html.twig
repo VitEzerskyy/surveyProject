@@ -1,0 +1,31 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Statistics</h1>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Question</th>
+            <th>Answers</th>
+        </tr>
+        </thead>
+        {% for key, user in result %}
+            <tbody>
+            <tr>
+                <td>{{ key }}</td>
+                <td>
+                    <ul>
+                    {% for key1, value1 in user %}
+                     <li>{{ key1 }} - {{ value1 }} %</li>
+                    {% endfor %}
+                        </ul>
+                </td>
+            </tr>
+            </tbody>
+        {% endfor %}
+    </table>
+
+    <a href="{{ path('surveys_all') }}">Back to all surveys</a>
+
+{% endblock %}

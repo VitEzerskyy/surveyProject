@@ -158,6 +158,7 @@ class Question
      */
     public function addAnswer(\AppBundle\Entity\Answer $answer)
     {
+        $answer->setQuestion($this);
         $this->answers[] = $answer;
 
         return $this;

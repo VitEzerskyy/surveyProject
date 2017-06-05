@@ -2,12 +2,28 @@
 
 {% block body %}
     <h1>Hi people</h1>
-    <h3>Here are actual surveys:</h3>
+    <h3>You can pass one of these surveys</h3>
 
-    <div class="list-group" style="width: 40%">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Survey</th>
+            <th>Created</th>
+            <th>Start</th>
+            <th>Statistics</th>
+        </tr>
+        </thead>
         {% for survey in surveys %}
-        <a href="{{ path('client_survey_show', {id:survey.id}) }}" class="list-group-item list-group-item-action">{{ survey.title }} ({{ survey.created|date('Y-m-d') }})</a>
+        <tbody>
+        <tr>
+            <td>{{ survey.title }}</td>
+            <td>{{ survey.created|date('Y-m-d') }}</td>
+            <td><a href="{{ path('client_survey_show', {id:survey.id}) }}"><button class="btn btn-success">Start</button></a></td>
+            <td><a href="{{ path('answer_stats', {id:survey.id}) }}"><button class="btn btn-default">Statistics</button></a></td>
+        </tr>
+        </tbody>
         {% endfor %}
-    </div>
+    </table>
+
 
 {% endblock %}
