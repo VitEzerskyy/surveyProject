@@ -36,8 +36,8 @@ class AnswerController extends Controller
             $doctrine->getManager()->persist($question);
         }
         $doctrine->getManager()->flush();
-
         $this->addFlash('success','Thank for your answers!');
+
         return new Response('ok');
     }
 
@@ -52,7 +52,6 @@ class AnswerController extends Controller
         findOneBy(array('id' => $request->get('id')));
 
         $result = $this->get('app.stats')->getStats($survey);
-
 
         return ['result' => $result];
     }

@@ -7,8 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @Route("/admin/question")
@@ -31,9 +29,6 @@ class QuestionController extends Controller
         }
 
         $form = $this->createForm(QuestionType::class, $question);
-        $form->add('submit', SubmitType::class, array(
-            'attr' => array('class' => 'btn btn-primary')));
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,19 +76,13 @@ class QuestionController extends Controller
         }
 
         $form = $this->createForm(QuestionType::class, $question);
-        $form->add('submit', SubmitType::class, array(
-            'attr' => array('class' => 'btn btn-primary')));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             foreach ($originalChoices as $choice) {
                 if (false === $question->getChoices()->contains($choice)) {
-
                     $choice->setQuestion(null);
-
                     $doctrine->getManager()->remove($choice);
-
                 }
             }
 

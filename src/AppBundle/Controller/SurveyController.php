@@ -16,9 +16,7 @@ class SurveyController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         $surveys = $this->get('doctrine')->getRepository('AppBundle:Survey')->findBy(array(),array('created' => 'DESC'));
-
         return ['surveys' => $surveys];
     }
 

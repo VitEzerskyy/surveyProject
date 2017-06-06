@@ -7,7 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 /**
  * @Route("/admin/survey")
  */
@@ -22,8 +21,6 @@ class SurveyController extends Controller
         $survey = new Survey();
 
         $form = $this->createForm(SurveyType::class, $survey);
-        $form->add('submit', SubmitType::class, array(
-            'attr' => array('class' => 'btn btn-primary')));
 
         $form->handleRequest($request);
 
@@ -88,7 +85,6 @@ class SurveyController extends Controller
         }
 
         $form = $this->createForm(SurveyType::class, $survey);
-        $form->add('submit', SubmitType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
