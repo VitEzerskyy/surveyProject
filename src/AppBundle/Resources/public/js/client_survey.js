@@ -1,5 +1,6 @@
 var but = $('#submit');
 var surveyId = $('h1').data('id');
+var patt = new RegExp("^[a-zA-Z0-9 \?]+$");
 
 but.on('click', function() {
     var postData = [];
@@ -7,8 +8,8 @@ but.on('click', function() {
 
     for(var i = 0; i < checkedInputs.length; i++) {
         if(checkedInputs[i].dataset.value == 'custom') {
-            if (checkedInputs[i].nextElementSibling.value == '') {
-                alert('Error! "Other" value cannot be null!');
+            if (checkedInputs[i].nextElementSibling.value == '' || patt.test(checkedInputs[i].nextElementSibling.value) == false) {
+                alert('Error! "Other" field can contain only numeric or alphabetical characters');
                 break
             } else {
                 checkedInputs[i].value = checkedInputs[i].nextElementSibling.value;

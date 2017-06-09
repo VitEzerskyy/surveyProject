@@ -27,6 +27,14 @@ class Question
      * @var string
      *
      * @ORM\Column(name="question", type="text")
+     * @Assert\Length(
+     *      min = 10,
+     *      minMessage = "Question must be at least {{ limit }} characters long",
+     * )
+     * * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9 \?]+$/",
+     *     message="Question must contain only numeric or alphabetic characters"
+     * )
      */
     private $question;
 
@@ -37,11 +45,6 @@ class Question
      */
     private $published;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Survey", inversedBy="questions")
      * @ORM\JoinColumn(name="survey_id", referencedColumnName="id", onDelete="CASCADE")

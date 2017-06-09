@@ -26,6 +26,10 @@ class Choice
      * @var string
      *
      * @ORM\Column(name="name", type="string")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9 \?]+$/",
+     *     message="Choice must contain only numeric or alphabetic characters"
+     * )
      */
     private $name;
 

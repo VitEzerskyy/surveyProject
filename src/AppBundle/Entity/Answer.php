@@ -26,6 +26,7 @@ class Answer
      * @var string
      *
      * @ORM\Column(name="answer", type="string")
+     * @Assert\Regex("/^[a-zA-Z0-9 \?]+$/")
      */
     private $answer;
 
@@ -40,7 +41,6 @@ class Answer
      * @ORM\JoinColumn(name="question_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $question;
-
 
 
     /**

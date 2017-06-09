@@ -6,6 +6,7 @@ use AppBundle\Entity\Choice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ChoiceType extends AbstractType
 {
@@ -15,7 +16,14 @@ class ChoiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->
-        add('name');
+            add('name', null, array(
+                'constraints' => array(
+                    new Regex(array(
+                        'pattern' => '/^[a-zA-Z0-9 \?]+$/',
+                        'message' => 'Choice must contain only numeric or alphabetic characters')),
+                ),
+            ))
+        ;
     }
 
     /**

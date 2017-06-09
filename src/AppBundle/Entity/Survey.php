@@ -27,6 +27,16 @@ class Survey
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 255,
+     *      minMessage = "Title must be at least {{ limit }} characters long",
+     *      maxMessage = "Title cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9 \?]+$/",
+     *     message="Title must contain only numeric or alphabetic characters"
+     * )
      */
     private $title;
 
@@ -41,6 +51,7 @@ class Survey
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetimetz")
+     * @Assert\DateTime()
      */
     private $created;
 
