@@ -7,6 +7,23 @@ services:
     app.stats:
         class: AppBundle\Service\StatsService
         arguments: []
+
+    app.survey_command:
+        class:     AppBundle\Entity\Service\SurveyCommandRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.survey_query:
+        class:     AppBundle\Entity\Service\SurveyQueryRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.question_command:
+        class:     AppBundle\Entity\Service\QuestionCommandRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.question_query:
+        class:     AppBundle\Entity\Service\QuestionQueryRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']

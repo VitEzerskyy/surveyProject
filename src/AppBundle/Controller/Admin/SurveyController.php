@@ -25,11 +25,7 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->get('doctrine')->getManager();
-
-            $em->persist($survey);
-            $em->flush();
-
+            $this->get('app.survey_command')->save($survey);
             $this->addFlash('success','The survey has added!');
             return $this->redirectToRoute('survey_show');
         }
@@ -37,36 +33,30 @@ class SurveyController extends Controller
         return ['form' => $form->createView()];
     }
 
-
     /**
      * @Template()
      * @Route("/show", name="survey_show")
      */
     public function showAction(Request $request) {
-        $surveys = $this->get('doctrine')->
-        getRepository('AppBundle:Survey')->
-        findBy(array(),array('created' => 'DESC'));
-
+        $surveys = $this->get('app.survey_query')->findByCreated();
         return ['surveys' => $surveys];
     }
 
     /**
      * @Route("/delete/{id}", name="survey_delete")
      */
-    public function deleteAction(Request $request)
+    public function deleteAction(Request $request, $id)
     {
-        $doctrine = $this->get('doctrine');
-        $survey = $doctrine->getRepository('AppBundle:Survey')->find($request->get('id'));
+        $survey = $this->get('app.survey_query')->findById($id);
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
             return $this->redirectToRoute('survey_show');
         }
 
-        $doctrine->getManager()->remove($survey);
-        $doctrine->getManager()->flush();
-
+        $this->get('app.survey_command')->remove($survey);
         $this->addFlash('success','The survey was deleted!');
+
         return $this->redirectToRoute('survey_show');
     }
 
@@ -74,10 +64,9 @@ class SurveyController extends Controller
      * @Template()
      * @Route("/edit/{id}", name="survey_edit")
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, $id)
     {
-        $doctrine = $this->get('doctrine');
-        $survey = $doctrine->getRepository('AppBundle:Survey')->find($request->get('id'));
+        $survey = $this->get('app.survey_query')->findById($id);
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
@@ -88,8 +77,7 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $doctrine->getManager()->persist($survey);
-            $doctrine->getManager()->flush();
+            $this->get('app.survey_command')->save($survey);
             $this->addFlash('success','Successfully edited!');
             return $this->redirectToRoute('survey_show');
         }

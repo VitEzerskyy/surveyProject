@@ -17,11 +17,10 @@ class QuestionController extends Controller
      * @Template()
      * @Route("/create/{surveyId}", name="question_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, $surveyId)
     {
         $question = new Question();
-        $doctrine = $this->get('doctrine');
-        $survey = $doctrine->getRepository('AppBundle:Survey')->find($request->get('surveyId'));
+        $survey = $this->get('app.survey_query')->findById($surveyId);
 
         if (!$survey) {
             $this->addFlash('fail', 'Survey not found');
@@ -32,9 +31,7 @@ class QuestionController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $question->setSurvey($survey);
-            $doctrine->getManager()->persist($question);
-            $doctrine->getManager()->flush();
+            $this->get('app.question_command')->save($question,$survey);
             $this->addFlash('success','The question has added!');
             return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
         }
@@ -47,10 +44,7 @@ class QuestionController extends Controller
      * @Route("/show/{surveyId}", name="question_show")
      */
     public function showAction(Request $request, $surveyId) {
-        $questions = $this->get('doctrine')->
-        getRepository('AppBundle:Question')->
-        findBy(array('survey' => $surveyId),array('published' => 'DESC'));
-
+        $questions = $this->get('app.question_query')->findByPublished($surveyId);
         return ['questions' => $questions, 'survey' => $surveyId];
     }
 
@@ -97,19 +91,15 @@ class QuestionController extends Controller
     /**
      * @Route("/delete/{surveyId}/{questionId}", name="question_delete")
      */
-    public function deleteAction(Request $request)
+    public function deleteAction(Request $request, $questionId)
     {
-        $doctrine = $this->get('doctrine');
-        $question = $doctrine->getRepository('AppBundle:Question')->find($request->get('questionId'));
+        $question = $this->get('app.question_query')->findById($questionId);
 
         if(!$question) {
             $this->addFlash('fail','Item not found!');
             return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
         }
-
-        $doctrine->getManager()->remove($question);
-        $doctrine->getManager()->flush();
-
+        $this->get('app.question_command')->remove($question);
         $this->addFlash('success','The question was deleted!');
         return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
     }

@@ -45,12 +45,9 @@ class AnswerController extends Controller
      * @Template()
      * @Route("/stats/{id}", name="answer_stats")
      */
-    public function statsAction(Request $request) {
+    public function statsAction(Request $request, $id) {
 
-        $survey = $this->get('doctrine')->
-        getRepository('AppBundle:Survey')->
-        findOneBy(array('id' => $request->get('id')));
-
+        $survey = $this->get('app.survey_query')->findById($id);
         $result = $this->get('app.stats')->getStats($survey);
 
         return ['result' => $result];
