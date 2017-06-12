@@ -11,6 +11,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+/**
+ * Class QuestionType
+ * @package AppBundle\Form
+ */
 class QuestionType extends AbstractType
 {
     /**

@@ -5,8 +5,19 @@ namespace AppBundle\Service;
 use AppBundle\AppBundle;
 use AppBundle\Entity\Survey;
 
+/**
+ * Class StatsService
+ *
+ * @package AppBundle\Service
+ */
 class StatsService
 {
+    /**
+     * returns statistics for corresponding Survey (percentage of answers to every question)
+     *
+     * @param Survey $survey
+     * @return array
+     */
     public function getStats(Survey $survey) {
         $questions = $survey->getQuestions()->toArray();
         $questions_new = [];

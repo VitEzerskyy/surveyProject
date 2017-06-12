@@ -7,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+/**
+ * Class SurveyType
+ * @package AppBundle\Form
+ */
 class SurveyType extends AbstractType
 {
     /**

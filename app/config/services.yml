@@ -24,6 +24,15 @@ services:
         class:     AppBundle\Entity\Service\QuestionQueryRepository
         arguments: ['@doctrine.orm.entity_manager']
 
+    app.choice_command:
+        class:     AppBundle\Entity\Service\ChoiceCommandRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.choice_query:
+        class:     AppBundle\Entity\Service\ChoiceQueryRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']

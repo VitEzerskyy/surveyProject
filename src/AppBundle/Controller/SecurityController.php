@@ -5,9 +5,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Class SecurityController
+ * @package AppBundle\Controller
+ */
 class SecurityController extends Controller
 {
     /**
+     * Login for user
+     *
+     * @param Request $request
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/login", name="login")
      */
@@ -27,6 +38,7 @@ class SecurityController extends Controller
     }
 
     /**
+     * Logout
      *
      * @Route("/logout", name="logout")
      */

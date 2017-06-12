@@ -10,38 +10,43 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Class AnswerController
+ *
+ * @package AppBundle\Controller
+ *
  * @Route("/answer")
  */
 class AnswerController extends Controller
 {
 
     /**
+     * Receive post data and transfer it to command
+     *
+     * @param Request $request
+     *
+     * @return Response
+     *
      * @Route("/add", name="add_answer")
      */
     public function addAction(Request $request) {
 
-        $doctrine = $this->get('doctrine');
-
         $content = $request->getContent();
         $parametersAsArray = json_decode($content, true);
 
-
-        foreach ($parametersAsArray as $value) {
-            $answer = new Answer();
-            $answer->setAnswer($value['answer']);
-
-            $question = $doctrine->getRepository('AppBundle:Question')->findOneBy(array('id'=>$value['questionId']));
-            $question->addAnswer($answer);
-
-            $doctrine->getManager()->persist($question);
-        }
-        $doctrine->getManager()->flush();
+        $this->get('app.question_command')->addAnswersToQuestions($parametersAsArray);
         $this->addFlash('success','Thank for your answers!');
 
         return new Response('ok');
     }
 
     /**
+     * Receive $id from request and transfer gotten survey object to stats service
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/stats/{id}", name="answer_stats")
      */

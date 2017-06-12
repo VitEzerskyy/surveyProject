@@ -8,9 +8,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SurveyController
+ * @package AppBundle\Controller
+ */
 class SurveyController extends Controller
 {
     /**
+     * Returns all surveys for client
+     *
+     * @param Request $request
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/", name="surveys_all")
      */
@@ -21,6 +31,13 @@ class SurveyController extends Controller
     }
 
     /**
+     * Returns survey by $id for client
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/show/{id}", name="client_survey_show")
      */

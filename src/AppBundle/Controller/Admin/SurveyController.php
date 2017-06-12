@@ -8,11 +8,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 /**
+ * Class SurveyController
+ * @package AppBundle\Controller\Admin
+ *
  * @Route("/admin/survey")
  */
 class SurveyController extends Controller
 {
     /**
+     * Return form for creating survey, transfer data to command
+     *
+     * @param Request $request
+     *
+     * @return array|Response
+     *
      * @Template()
      * @Route("/create", name="survey_create")
      */
@@ -34,6 +43,12 @@ class SurveyController extends Controller
     }
 
     /**
+     * Return all surveys
+     *
+     * @param Request $request
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/show", name="survey_show")
      */
@@ -43,6 +58,13 @@ class SurveyController extends Controller
     }
 
     /**
+     * Transfer data for deleting survey
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return array|Response
+     *
      * @Route("/delete/{id}", name="survey_delete")
      */
     public function deleteAction(Request $request, $id)
@@ -61,6 +83,13 @@ class SurveyController extends Controller
     }
 
     /**
+     * Return form for Editing survey, transfer data to command
+     *
+     * @param Request $request
+     * @param integer $id
+     *
+     * @return array|Response
+     *
      * @Template()
      * @Route("/edit/{id}", name="survey_edit")
      */

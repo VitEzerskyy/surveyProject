@@ -7,10 +7,20 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-
+/**
+ * Class LoadUserData
+ *
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadUserData implements FixtureInterface, ContainerAwareInterface
 {
     use ContainerAwareTrait;
+
+    /**
+     * Loads fixtures for user admin
+     *
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
             $user = (new User())

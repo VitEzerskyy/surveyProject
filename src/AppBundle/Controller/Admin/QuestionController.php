@@ -9,12 +9,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Common\Collections\ArrayCollection;
 /**
+ * Class QuestionController
+ * @package AppBundle\Controller\Admin
+ *
  * @Route("/admin/question")
  */
 class QuestionController extends Controller
 {
     /**
+     * Returns form for Creating question and its choices, transfer data to command
+     *
+     * @param Request $request
+     * @param integer $surveyId
+     *
+     * @return array|Response
+     *
      * @Template()
+     *
      * @Route("/create/{surveyId}", name="question_create")
      */
     public function createAction(Request $request, $surveyId)
@@ -40,6 +51,13 @@ class QuestionController extends Controller
     }
 
     /**
+     * Returns all questions for $surveyId survey
+     *
+     * @param Request $request
+     * @param integer $surveyId
+     *
+     * @return array
+     *
      * @Template()
      * @Route("/show/{surveyId}", name="question_show")
      */
@@ -49,39 +67,34 @@ class QuestionController extends Controller
     }
 
     /**
+     * Returns form for Editing question and its choices, transfer data to command
+     *
+     * @param Request $request
+     * @param integer $questionId
+     *
+     * @return array|Response
+     *
      * @Template()
      * @Route("/edit/{surveyId}/{questionId}", name="question_edit")
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, $questionId)
     {
-        $doctrine = $this->get('doctrine');
-        $question = $doctrine->getRepository('AppBundle:Question')->find($request->get('questionId'));
+        $question = $this->get('app.question_query')->findById($questionId);
 
         if(!$question) {
             $this->addFlash('fail','Item not found!');
             return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
         }
 
-        $originalChoices = new ArrayCollection();
-
-        // Create an ArrayCollection of the current Choice objects in the database
-        foreach ($question->getChoices() as $choice) {
-            $originalChoices->add($choice);
-        }
+        /**Get an ArrayCollection of the current Choice objects in the database */
+        $originalChoices = $this->get('app.choice_query')->getAll($question);
 
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($originalChoices as $choice) {
-                if (false === $question->getChoices()->contains($choice)) {
-                    $choice->setQuestion(null);
-                    $doctrine->getManager()->remove($choice);
-                }
-            }
-
-            $doctrine->getManager()->persist($question);
-            $doctrine->getManager()->flush();
+            $question = $this->get('app.choice_command')->edit($originalChoices, $question);
+            $this->get('app.question_command')->save($question);
             $this->addFlash('success','Successfully edited!');
             return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
         }
@@ -89,6 +102,13 @@ class QuestionController extends Controller
     }
 
     /**
+     * Transfer data for Deleting question
+     *
+     * @param Request $request
+     * @param integer $questionId
+     *
+     * @return Response
+     *
      * @Route("/delete/{surveyId}/{questionId}", name="question_delete")
      */
     public function deleteAction(Request $request, $questionId)

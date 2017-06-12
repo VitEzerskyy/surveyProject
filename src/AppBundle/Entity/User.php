@@ -24,6 +24,7 @@ class User implements UserInterface, \Serializable
      */
     private $username;
 
+
     public function getUsername()
     {
         return $this->username;
