@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 
-Interface CommandRepository
+Interface WriteRepository
 {
     public function save($object);
     public function remove($object);

@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 
-Interface QueryRepository
+Interface ReadRepository
 {
     public function findById($id);
     public function getAll();

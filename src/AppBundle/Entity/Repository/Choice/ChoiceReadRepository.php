@@ -1,24 +1,24 @@
 <?php
 
 
-namespace AppBundle\Entity\Service;
+namespace AppBundle\Entity\Repository\Choice;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Choice;
 use AppBundle\Entity\Question;
-use AppBundle\Entity\QueryRepository;
+use AppBundle\Entity\ReadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class ChoiceQueryRepository
- * @package AppBundle\Entity\Service
+ * Class ChoiceReadRepository
+ * @package AppBundle\Entity\Repository
  */
-class ChoiceQueryRepository implements QueryRepository
+class ChoiceReadRepository implements ReadRepository
 {
     private $entityManager;
 
     /**
-     * ChoiceQueryRepository constructor.
+     * ChoiceReadRepository constructor.
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)

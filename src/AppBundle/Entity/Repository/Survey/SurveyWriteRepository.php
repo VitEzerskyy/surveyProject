@@ -1,21 +1,21 @@
 <?php
 
-namespace AppBundle\Entity\Service;
+namespace AppBundle\Entity\Repository\Survey;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Survey;
-use AppBundle\Entity\CommandRepository;
+use AppBundle\Entity\WriteRepository;
 
 /**
- * Class SurveyCommandRepository
- * @package AppBundle\Entity\Service
+ * Class SurveyWriteRepository
+ * @package AppBundle\Entity\Repository
  */
-class SurveyCommandRepository implements CommandRepository
+class SurveyWriteRepository implements WriteRepository
 {
     private $entityManager;
 
     /**
-     * SurveyCommandRepository constructor.
+     * SurveyWriteRepository constructor.
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)

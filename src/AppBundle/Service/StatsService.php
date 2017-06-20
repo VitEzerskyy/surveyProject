@@ -8,7 +8,7 @@ use AppBundle\Entity\Survey;
 /**
  * Class StatsService
  *
- * @package AppBundle\Service
+ * @package AppBundle\Repository
  */
 class StatsService
 {

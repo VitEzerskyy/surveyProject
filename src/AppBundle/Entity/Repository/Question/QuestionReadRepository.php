@@ -1,21 +1,21 @@
 <?php
 
-namespace AppBundle\Entity\Service;
+namespace AppBundle\Entity\Repository\Question;
 
 use AppBundle\Entity\Question;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\QueryRepository;
+use AppBundle\Entity\ReadRepository;
 
 /**
- * Class QuestionQueryRepository
- * @package AppBundle\Entity\Service
+ * Class QuestionReadRepository
+ * @package AppBundle\Entity\Repository
  */
-class QuestionQueryRepository implements QueryRepository
+class QuestionReadRepository implements ReadRepository
 {
     private $entityManager;
 
     /**
-     * QuestionQueryRepository constructor.
+     * QuestionReadRepository constructor.
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)

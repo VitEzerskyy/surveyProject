@@ -8,29 +8,29 @@ services:
         class: AppBundle\Service\StatsService
         arguments: []
 
-    app.survey_command:
-        class:     AppBundle\Entity\Service\SurveyCommandRepository
+    app.survey_write:
+        class:     AppBundle\Entity\Repository\Survey\SurveyWriteRepository
         arguments: ['@doctrine.orm.entity_manager']
 
-    app.survey_query:
-        class:     AppBundle\Entity\Service\SurveyQueryRepository
+    app.survey_read:
+        class:     AppBundle\Entity\Repository\Survey\SurveyReadRepository
         arguments: ['@doctrine.orm.entity_manager']
 
-    app.question_command:
-        class:     AppBundle\Entity\Service\QuestionCommandRepository
+    app.question_write:
+        class:     AppBundle\Entity\Repository\Question\QuestionWriteRepository
         arguments: ['@doctrine.orm.entity_manager']
 
-    app.question_query:
-        class:     AppBundle\Entity\Service\QuestionQueryRepository
+    app.question_read:
+        class:     AppBundle\Entity\Repository\Question\QuestionReadRepository
         arguments: ['@doctrine.orm.entity_manager']
 
-    app.choice_command:
-        class:     AppBundle\Entity\Service\ChoiceCommandRepository
-        arguments: ['@doctrine.orm.entity_manager']
+    app.choice_edit_command:
+        class:     AppBundle\Entity\Repository\Choice\Command\EditCommand
+        arguments: ['']
 
-    app.choice_query:
-        class:     AppBundle\Entity\Service\ChoiceQueryRepository
-        arguments: ['@doctrine.orm.entity_manager']
+    app.choice_getall_query:
+        class:     AppBundle\Entity\Repository\Choice\Query\GetAllQuery
+        arguments: [ChoiceReadRepository]
 
 
     #service_name:

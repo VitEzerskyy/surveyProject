@@ -34,7 +34,7 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.survey_command')->save($survey);
+            $this->get('app.survey_write')->save($survey);
             $this->addFlash('success','The survey has added!');
             return $this->redirectToRoute('survey_show');
         }
@@ -53,7 +53,7 @@ class SurveyController extends Controller
      * @Route("/show", name="survey_show")
      */
     public function showAction(Request $request) {
-        $surveys = $this->get('app.survey_query')->findByCreated();
+        $surveys = $this->get('app.survey_read')->findByCreated();
         return ['surveys' => $surveys];
     }
 
@@ -69,14 +69,14 @@ class SurveyController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $survey = $this->get('app.survey_query')->findById($id);
+        $survey = $this->get('app.survey_read')->findById($id);
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
             return $this->redirectToRoute('survey_show');
         }
 
-        $this->get('app.survey_command')->remove($survey);
+        $this->get('app.survey_write')->remove($survey);
         $this->addFlash('success','The survey was deleted!');
 
         return $this->redirectToRoute('survey_show');
@@ -95,7 +95,7 @@ class SurveyController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $survey = $this->get('app.survey_query')->findById($id);
+        $survey = $this->get('app.survey_read')->findById($id);
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
@@ -106,7 +106,7 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('app.survey_command')->save($survey);
+            $this->get('app.survey_write')->save($survey);
             $this->addFlash('success','Successfully edited!');
             return $this->redirectToRoute('survey_show');
         }

@@ -1,23 +1,23 @@
 <?php
 
-namespace AppBundle\Entity\Service;
+namespace AppBundle\Entity\Repository\Question;
 
 use AppBundle\Entity\Question;
 use AppBundle\Entity\Survey;
 use AppBundle\Entity\Answer;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\CommandRepository;
+use AppBundle\Entity\WriteRepository;
 
 /**
- * Class QuestionCommandRepository
- * @package AppBundle\Entity\Service
+ * Class QuestionWriteRepository
+ * @package AppBundle\Entity\Repository
  */
-class QuestionCommandRepository implements CommandRepository
+class QuestionWriteRepository implements WriteRepository
 {
     private $entityManager;
 
     /**
-     * QuestionCommandRepository constructor.
+     * QuestionWriteRepository constructor.
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)

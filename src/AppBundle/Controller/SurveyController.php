@@ -26,7 +26,7 @@ class SurveyController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $surveys = $this->get('app.survey_query')->findByCreated();
+        $surveys = $this->get('app.survey_read')->findByCreated();
         return ['surveys' => $surveys];
     }
 
@@ -43,7 +43,7 @@ class SurveyController extends Controller
      */
     public function showAction(Request $request, $id) {
 
-        $survey = $this->get('app.survey_query')->findById($id);
+        $survey = $this->get('app.survey_read')->findById($id);
         return ['survey' => $survey];
     }
 

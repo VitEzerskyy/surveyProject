@@ -1,25 +1,25 @@
 <?php
 
 
-namespace AppBundle\Entity\Service;
+namespace AppBundle\Entity\Repository\Choice;
 
 use AppBundle\Entity\Question;
 use AppBundle\Entity\Choice;
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\CommandRepository;
+use AppBundle\Entity\WriteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class ChoiceCommandRepository
- * @package AppBundle\Entity\Service
+ * Class ChoiceWriteRepository
+ * @package AppBundle\Entity\Repository
  */
-class ChoiceCommandRepository implements CommandRepository
+class ChoiceWriteRepository implements WriteRepository
 {
 
     private $entityManager;
 
     /**
-     * ChoiceCommandRepository constructor.
+     * ChoiceWriteRepository constructor.
      * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
