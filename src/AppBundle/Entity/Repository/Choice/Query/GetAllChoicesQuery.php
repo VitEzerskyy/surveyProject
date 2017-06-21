@@ -5,12 +5,13 @@ namespace AppBundle\Entity\Repository\Choice\Query;
 use AppBundle\Entity\Query;
 use AppBundle\Entity\Repository\Choice\ChoiceReadRepository;
 use AppBundle\Entity\Question;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class GetAllQuery
  * @package AppBundle\Entity\Repository\Choice\Query
  */
-class GetAllQuery implements Query
+class GetAllChoicesQuery implements Query
 {
     protected $choiceRep;
 
@@ -24,9 +25,10 @@ class GetAllQuery implements Query
 
     /**
      * @param Question|null $question
+     * @return bool|ArrayCollection
      */
     public function execute(Question $question = null)
     {
-        $this->choiceRep->getAll($question);
+       return $this->choiceRep->getAll($question);
     }
 }

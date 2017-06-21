@@ -24,13 +24,21 @@ services:
         class:     AppBundle\Entity\Repository\Question\QuestionReadRepository
         arguments: ['@doctrine.orm.entity_manager']
 
+    app.choice_write:
+        class:     AppBundle\Entity\Repository\Choice\ChoiceWriteRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
+    app.choice_read:
+        class:     AppBundle\Entity\Repository\Choice\ChoiceReadRepository
+        arguments: ['@doctrine.orm.entity_manager']
+
     app.choice_edit_command:
-        class:     AppBundle\Entity\Repository\Choice\Command\EditCommand
-        arguments: ['']
+        class:     AppBundle\Entity\Repository\Choice\Command\EditChoiceCommand
+        arguments: ['@app.choice_write']
 
     app.choice_getall_query:
-        class:     AppBundle\Entity\Repository\Choice\Query\GetAllQuery
-        arguments: [ChoiceReadRepository]
+        class:     AppBundle\Entity\Repository\Choice\Query\GetAllChoicesQuery
+        arguments: ['@app.choice_read']
 
 
     #service_name:

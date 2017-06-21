@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Class EditCommand
  * @package AppBundle\Entity\Repository\Choice\Command
  */
-class EditCommand implements Command
+class EditChoiceCommand implements Command
 {
     protected $choiceRep;
 
@@ -27,9 +27,10 @@ class EditCommand implements Command
     /**
      * @param ArrayCollection|null $choices
      * @param Question|null $question
+     * @return Question
      */
     public function execute(ArrayCollection $choices = null, Question $question = null)
     {
-        $this->choiceRep->edit($choices, $question);
+        return $this->choiceRep->edit($choices, $question);
     }
 }
