@@ -40,6 +40,11 @@ services:
         class:     AppBundle\Entity\Repository\Choice\Query\GetAllChoicesQuery
         arguments: ['@app.choice_read']
 
+    app.exception_listener:
+        class: AppBundle\EventListener\CustomExceptionListener
+        arguments: [ "@templating", "@kernel"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception , method: onKernelException}
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

@@ -37,12 +37,9 @@ class AnswerController extends Controller
         $content = $request->getContent();
         $parametersAsArray = json_decode($content, true);
 
-        try{
-            $this->get('app.question_write')->addAnswersToQuestions($parametersAsArray);
-            $this->addFlash('success','Thank for your answers!');
-        }catch(\Exception $e) {
-            return $this->render('@App/Error/error.html.twig', array('error' => $e->getMessage()));
-        }
+        $this->get('app.question_write')->addAnswersToQuestions($parametersAsArray);
+        $this->addFlash('success','Thank for your answers!');
+
         return new Response('OK');
     }
 
@@ -59,8 +56,8 @@ class AnswerController extends Controller
      */
     public function statsAction(Request $request, $id) {
 
-        $survey = $this->get('app.survey_read')->findById($id);
-        $result = $this->get('app.stats')->getStats($survey);
+         $survey = $this->get('app.survey_read')->findById($id);
+         $result = $this->get('app.stats')->getStats($survey);
 
         return ['result' => $result];
     }

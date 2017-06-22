@@ -38,11 +38,15 @@ class SurveyReadRepository implements ReadRepository
      * find survey by id
      *
      * @param $id
-     * @return Survey|null|object
+     * @return Survey
+     * @throws \Exception
      */
     public function findById($id)
     {
         $survey = $this->entityManager->getRepository('AppBundle:Survey')->find($id);
+        if (!$survey) {
+            throw new \Exception("The survey (id = {$id}) wasn't found");
+        }
         return $survey;
     }
 

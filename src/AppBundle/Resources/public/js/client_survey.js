@@ -24,8 +24,12 @@ but.on('click', function() {
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(postData)
+        }).done(function() {
+            window.location.replace('/answer/stats/' + surveyId);
+        }).fail(function() {
+            alert( "ajax error" );
         });
-        window.location.replace('/answer/stats/' + surveyId);
+
     }
 
 });
