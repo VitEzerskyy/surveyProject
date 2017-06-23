@@ -26,8 +26,10 @@ but.on('click', function() {
             data: JSON.stringify(postData)
         }).done(function() {
             window.location.replace('/answer/stats/' + surveyId);
-        }).fail(function() {
-            alert( "ajax error" );
+        }).fail(function(xhr) {
+            $( ".container" ).remove();
+            var $div = $('<div>').appendTo("body");
+            $div.html(xhr.responseText);
         });
 
     }

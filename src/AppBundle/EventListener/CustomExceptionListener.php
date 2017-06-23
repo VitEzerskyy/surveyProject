@@ -19,9 +19,9 @@ class CustomExceptionListener
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $env = $this->kernel->getEnvironment();
+        //$env = $this->kernel->getEnvironment();
+        //if ($env == 'prod') { }
 
-        if ($env == 'prod') {
             $exception = $event->getException();
             $message = $exception->getMessage();
 
@@ -31,7 +31,7 @@ class CustomExceptionListener
             );
 
             $event->setResponse(new Response($response));
-        }
+
 
     }
 }

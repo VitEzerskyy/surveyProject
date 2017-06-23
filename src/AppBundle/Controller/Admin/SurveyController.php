@@ -92,6 +92,7 @@ class SurveyController extends Controller
      *
      * @Template()
      * @Route("/edit/{id}", name="survey_edit")
+     * @throws \Exception
      */
     public function editAction(Request $request, $id)
     {
@@ -99,7 +100,7 @@ class SurveyController extends Controller
 
         if(!$survey) {
             $this->addFlash('fail','Item not found!');
-            return $this->redirectToRoute('survey_show');
+            throw new \Exception("The survey (id = {$id}) wasn't found");
         }
 
         $form = $this->createForm(SurveyType::class, $survey);

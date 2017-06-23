@@ -28,7 +28,7 @@ class Survey
      *
      * @ORM\Column(name="title", type="string", length=255)
      * @Assert\Length(
-     *      min = 10,
+     *      min = 5,
      *      max = 255,
      *      minMessage = "Title must be at least {{ limit }} characters long",
      *      maxMessage = "Title cannot be longer than {{ limit }} characters"

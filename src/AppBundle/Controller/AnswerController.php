@@ -56,8 +56,8 @@ class AnswerController extends Controller
      */
     public function statsAction(Request $request, $id) {
 
-         $survey = $this->get('app.survey_read')->findById($id);
-         $result = $this->get('app.stats')->getStats($survey);
+        $survey = $this->get('app.survey_read')->findById($id);
+        $result = $this->get('app.stats')->getStats($survey);
 
         return ['result' => $result];
     }
