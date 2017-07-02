@@ -31,63 +31,65 @@ class QuestionWriteRepository implements WriteRepository
      *
      * @param $object
      * @param Survey|null $survey
-     * @return bool|\Exception
      * @throws \Exception
      */
     public function save($object, Survey $survey = null)
     {
-        if ($object instanceof Question) {
-            if ($survey) {
+        try {
+            if ($object instanceof Question) {
+                if ($survey) {
                 $object->setSurvey($survey);
+                }
+                $this->entityManager->persist($object);
+                $this->entityManager->flush();
             }
-            $this->entityManager->persist($object);
-            $this->entityManager->flush();
-            return true;
+        }catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't save Question");
         }
-        throw new \Exception("Something went wrong. Can't save Question");
     }
 
     /**
      * remove question from db
      *
      * @param $object
-     * @return bool|\Exception
      * @throws \Exception
      */
     public function remove($object)
     {
-        if ($object instanceof Question) {
-            $this->entityManager->remove($object);
-            $this->entityManager->flush();
-            return true;
+        try {
+            if ($object instanceof Question) {
+                $this->entityManager->remove($object);
+                $this->entityManager->flush();
+            }
+        }catch(\Exception $e) {
+            throw new \Exception("Something went wrong. Can't remove Question");
         }
-        throw new \Exception("Something went wrong. Can't remove Question");
     }
 
     /**
      * add all answers to corresponding questions
      *
      * @param array $parametersAsArray
-     * @return bool|\Exception
      * @throws \Exception
      */
     public function addAnswersToQuestions(Array $parametersAsArray)
     {
-        if (!empty($parametersAsArray)) {
-            foreach ($parametersAsArray as $value) {
-                $answer = new Answer();
-                $answer->setAnswer($value['answer']);
+        try {
+            if (!empty($parametersAsArray)) {
+                foreach ($parametersAsArray as $value) {
+                    $answer = new Answer();
+                    $answer->setAnswer($value['answer']);
 
-                $question = $this->entityManager->getRepository('AppBundle:Question')
-                    ->findOneBy(array('id'=>$value['questionId']));
+                    $question = $this->entityManager->getRepository('AppBundle:Question')
+                        ->findOneBy(array('id'=>$value['questionId']));
 
-                $question->addAnswer($answer);
-
-                $this->entityManager->persist($question);
+                    $question->addAnswer($answer);
+                    $this->entityManager->persist($question);
+                }
+                $this->entityManager->flush();
             }
-            $this->entityManager->flush();
-            return true;
+        }catch(\Exception $e) {
+            throw new \Exception("Something went wrong. Can't add answers to Question");
         }
-        throw new \Exception("Something went wrong. Can't add answers to Question");
     }
 }

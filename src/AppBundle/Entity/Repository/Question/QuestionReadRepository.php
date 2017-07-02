@@ -27,10 +27,15 @@ class QuestionReadRepository implements ReadRepository
      * get all questions
      *
      * @return Question[]|array
+     * @throws \Exception
      */
     public function getAll()
     {
-        $questions = $this->entityManager->getRepository('AppBundle:Question')->findAll();
+        try {
+            $questions = $this->entityManager->getRepository('AppBundle:Question')->findAll();
+        }catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't fetch data from Question");
+        }
         return $questions;
     }
 
@@ -39,10 +44,15 @@ class QuestionReadRepository implements ReadRepository
      *
      * @param $id
      * @return Question|null|object
+     * @throws \Exception
      */
     public function findById($id)
     {
-        $question = $this->entityManager->getRepository('AppBundle:Question')->find($id);
+        try {
+            $question = $this->entityManager->getRepository('AppBundle:Question')->find($id);
+        }catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't fetch data from Question");
+        }
         return $question;
     }
 
@@ -51,10 +61,15 @@ class QuestionReadRepository implements ReadRepository
      *
      * @param $surveyId
      * @return Question[]|array
+     * @throws \Exception
      */
     public function findByPublished($surveyId)
     {
-        $questions = $this->entityManager->getRepository('AppBundle:Question')->findBy(array('survey' => $surveyId),array('published' => 'DESC'));
+        try {
+            $questions = $this->entityManager->getRepository('AppBundle:Question')->findBy(array('survey' => $surveyId),array('published' => 'DESC'));
+        }catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't fetch data from Question");
+        }
         return $questions;
     }
 }

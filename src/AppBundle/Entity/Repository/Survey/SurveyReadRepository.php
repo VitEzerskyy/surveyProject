@@ -27,10 +27,15 @@ class SurveyReadRepository implements ReadRepository
      * get all surveys
      *
      * @return Survey[]|array
+     * @throws \Exception
      */
     public function getAll()
     {
-        $surveys = $this->entityManager->getRepository('AppBundle:Survey')->findAll();
+        try {
+            $surveys = $this->entityManager->getRepository('AppBundle:Survey')->findAll();
+        }catch (\Exception $e) {
+            throw new \Exception("Oops! Something went wrong. Can't fetch data from Survey");
+        }
         return $surveys;
     }
 
@@ -43,9 +48,10 @@ class SurveyReadRepository implements ReadRepository
      */
     public function findById($id)
     {
-        $survey = $this->entityManager->getRepository('AppBundle:Survey')->find($id);
-        if (!$survey) {
-            throw new \Exception("The survey (id = {$id}) wasn't found");
+        try {
+            $survey = $this->entityManager->getRepository('AppBundle:Survey')->find($id);
+        }catch (\Exception $e) {
+            throw new \Exception("Oops! Something went wrong. Can't fetch data from Survey");
         }
         return $survey;
     }
@@ -54,9 +60,15 @@ class SurveyReadRepository implements ReadRepository
      * find all surveys, sort by created
      *
      * @return Survey[]|array
+     * @throws \Exception
      */
     public function findByCreated() {
-        $surveys = $this->entityManager->getRepository('AppBundle:Survey')->findBy(array(),array('created' => 'DESC'));
+
+        try {
+            $surveys = $this->entityManager->getRepository('AppBundle:Survey')->findBy(array(),array('created' => 'DESC'));
+        }catch (\Exception $e) {
+            throw new \Exception("Oops! Something went wrong. Can't fetch data from Survey");
+        }
         return $surveys;
     }
 }
