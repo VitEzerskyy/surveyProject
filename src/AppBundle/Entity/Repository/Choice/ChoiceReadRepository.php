@@ -31,6 +31,7 @@ class ChoiceReadRepository implements ReadRepository
      *
      * @param Question|null $question
      * @return bool|ArrayCollection
+     * @throws \Exception
      */
     public function getAll(Question $question = null)
     {
@@ -41,7 +42,7 @@ class ChoiceReadRepository implements ReadRepository
             }
             return $originalChoices;
         }
-        return false;
+        throw new \Exception("Question not found");
     }
 
     /**

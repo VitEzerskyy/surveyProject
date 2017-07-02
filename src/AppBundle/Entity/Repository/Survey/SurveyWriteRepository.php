@@ -27,12 +27,17 @@ class SurveyWriteRepository implements WriteRepository
      * save survey to db
      *
      * @param $object
+     * @throws \Exception
      */
     public function save($object)
     {
-        if ($object instanceof Survey) {
-            $this->entityManager->persist($object);
-            $this->entityManager->flush();
+        try {
+            if ($object instanceof Survey) {
+                $this->entityManager->persist($object);
+                $this->entityManager->flush();
+            }
+        } catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't save Survey");
         }
     }
 
@@ -40,12 +45,17 @@ class SurveyWriteRepository implements WriteRepository
      * remove survey from db
      *
      * @param $object
+     * @throws \Exception
      */
     public function remove($object)
     {
-        if ($object instanceof Survey) {
-            $this->entityManager->remove($object);
-            $this->entityManager->flush();
+        try {
+            if ($object instanceof Survey) {
+                $this->entityManager->remove($object);
+                $this->entityManager->flush();
+            }
+        } catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't remove Survey");
         }
     }
 }

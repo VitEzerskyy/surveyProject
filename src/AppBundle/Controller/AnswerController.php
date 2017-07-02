@@ -3,13 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Answer;
-use Doctrine\DBAL\DBALException;
-use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,18 +20,23 @@ class AnswerController extends Controller
 {
 
     /**
-     * Receive post data and transfer it to command
+     * Receive post data and transfer it to write repository
      *
      * @param Request $request
      *
      * @return Response
      *
      * @Route("/add", name="add_answer")
+     * @throws \Exception
      */
     public function addAction(Request $request) {
 
         $content = $request->getContent();
-        $parametersAsArray = json_decode($content, true);
+        if ($content) {
+            $parametersAsArray = json_decode($content, true);
+        } else {
+            throw new \Exception("No data was received");
+        }
 
         $this->get('app.question_write')->addAnswersToQuestions($parametersAsArray);
         $this->addFlash('success','Thank for your answers!');
@@ -49,7 +50,7 @@ class AnswerController extends Controller
      * @param Request $request
      * @param integer $id
      *
-     * @return array
+     * @return array|Response
      *
      * @Template()
      * @Route("/stats/{id}", name="answer_stats")
@@ -57,6 +58,10 @@ class AnswerController extends Controller
     public function statsAction(Request $request, $id) {
 
         $survey = $this->get('app.survey_read')->findById($id);
+        if (!$survey) {
+            $this->addFlash('fail','Survey not found!');
+            return $this->redirectToRoute('surveys_all');
+        }
         $result = $this->get('app.stats')->getStats($survey);
 
         return ['result' => $result];

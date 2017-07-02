@@ -36,7 +36,7 @@ class SurveyController extends Controller
      * @param Request $request
      * @param integer $id
      *
-     * @return array
+     * @return array|Response
      *
      * @Template()
      * @Route("/show/{id}", name="client_survey_show")
@@ -44,6 +44,10 @@ class SurveyController extends Controller
     public function showAction(Request $request, $id) {
 
         $survey = $this->get('app.survey_read')->findById($id);
+        if (!$survey) {
+            $this->addFlash('fail','Survey not found!');
+            return $this->redirectToRoute('surveys_all');
+        }
         return ['survey' => $survey];
     }
 

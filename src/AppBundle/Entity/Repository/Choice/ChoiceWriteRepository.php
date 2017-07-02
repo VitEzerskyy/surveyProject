@@ -49,15 +49,20 @@ class ChoiceWriteRepository implements WriteRepository
      * @param ArrayCollection $choices
      * @param Question $question
      * @return Question
+     * @throws \Exception
      */
     public function edit(ArrayCollection $choices, Question $question) {
+        try {
         foreach ($choices as $choice) {
             if (false === $question->getChoices()->contains($choice)) {
                 $choice->setQuestion(null);
                 $this->entityManager->remove($choice);
             }
         }
-        return $question;
-    }
+            return $question;
+        }catch (\Exception $e) {
+            throw new \Exception("Something went wrong. Can't edit Question");
+        }
 
+    }
 }

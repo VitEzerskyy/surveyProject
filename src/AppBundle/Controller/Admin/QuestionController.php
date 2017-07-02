@@ -57,13 +57,17 @@ class QuestionController extends Controller
      * @param Request $request
      * @param integer $surveyId
      *
-     * @return array
+     * @return array|Response
      *
      * @Template()
      * @Route("/show/{surveyId}", name="question_show")
      */
     public function showAction(Request $request, $surveyId) {
         $questions = $this->get('app.question_read')->findByPublished($surveyId);
+        if (!$questions) {
+            $this->addFlash('fail','Survey not found!');
+            return $this->redirectToRoute('survey_show');
+        }
         return ['questions' => $questions, 'survey' => $surveyId];
     }
 

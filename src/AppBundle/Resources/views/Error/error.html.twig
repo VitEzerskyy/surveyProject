@@ -3,4 +3,9 @@
 {% block body %}
     <h2>Error:</h2>
     <h3>{{ error }}</h3>
+    {% if is_granted('ROLE_ADMIN') %}
+        <p><a href="{{ path('admin_homepage') }}">Back to homepage</a></p>
+    {% else %}
+        <p><a href="{{ path('surveys_all') }}">Back to homepage</a></p>
+    {% endif %}
 {% endblock %}
