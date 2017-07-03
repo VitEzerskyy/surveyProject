@@ -32,9 +32,8 @@ class AnswerController extends Controller
     public function addAction(Request $request) {
 
         $content = $request->getContent();
-        if ($content) {
-            $parametersAsArray = json_decode($content, true);
-        } else {
+        $parametersAsArray = json_decode($content, true);
+        if (empty($parametersAsArray)) {
             throw new \Exception("No data was received");
         }
 

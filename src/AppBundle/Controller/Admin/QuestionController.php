@@ -82,13 +82,19 @@ class QuestionController extends Controller
      * @Template()
      * @Route("/edit/{surveyId}/{questionId}", name="question_edit")
      */
-    public function editAction(Request $request, $questionId)
+    public function editAction(Request $request, $surveyId, $questionId)
     {
+        $survey = $this->get('app.survey_read')->findById($surveyId);
         $question = $this->get('app.question_read')->findById($questionId);
 
+        if(!$survey) {
+            $this->addFlash('fail','Survey not found!');
+            return $this->redirectToRoute('survey_show');
+        }
+
         if(!$question) {
-            $this->addFlash('fail','Item not found!');
-            return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
+            $this->addFlash('fail','Question not found!');
+            return $this->redirectToRoute('question_show',array('surveyId' => $surveyId));
         }
 
         /**Get an ArrayCollection of the current Choice objects in the database */
@@ -101,7 +107,7 @@ class QuestionController extends Controller
             $question = $this->get('app.choice_edit_command')->execute($originalChoices, $question);
             $this->get('app.question_write')->save($question);
             $this->addFlash('success','Successfully edited!');
-            return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
+            return $this->redirectToRoute('question_show',array('surveyId' => $surveyId));
         }
         return ['form' => $form->createView()];
     }
@@ -121,7 +127,7 @@ class QuestionController extends Controller
         $question = $this->get('app.question_read')->findById($questionId);
 
         if(!$question) {
-            $this->addFlash('fail','Item not found!');
+            $this->addFlash('fail','Question not found!');
             return $this->redirectToRoute('question_show',array('surveyId' => $request->get('surveyId')));
         }
         $this->get('app.question_write')->remove($question);
